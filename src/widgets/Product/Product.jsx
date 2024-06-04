@@ -1,5 +1,6 @@
 import React from 'react';
 import {Box, Button, CardActions, CardContent, Modal, Typography} from "@mui/material";
+import {carts} from "../../pages/Cart/Cart";
 
 const style = {
   position: 'absolute',
@@ -12,7 +13,7 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-const Market = ({image,name,price,grame}) => {
+const Product = ({image,name,price,grame}) => {
 	const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -27,7 +28,7 @@ const Market = ({image,name,price,grame}) => {
 		      </center>
       </Typography>
 				<Typography sx={{ mb: 1.5 }} color="text.secondary">
-	      {grame}
+	      {grame} г.
       </Typography>
     </CardContent>
     <CardActions>
@@ -44,11 +45,18 @@ const Market = ({image,name,price,grame}) => {
     </Typography>
     <Typography id="modal-modal-description" sx={{ mt: 2 }}>
 	    <center>
-	    {price}
+	    {price} ₽
 		    </center>
 	    <br></br>
     </Typography>
-	  <Button variant={"contained"} sx={{width: 350}}>Купить</Button>
+	  <Button variant={"contained"} sx={{width: 350}} onClick={() => {
+			if (!carts.find(cart => cart.image === image)) {
+				carts.push({image,name,price,grame, count: 1})
+			}else {
+				carts[carts.findIndex(cart => cart.image === image)].count+=1
+			}
+			setOpen(false)
+		}}>Купить</Button>
   </Box>
 </Modal>
     </CardActions>
@@ -56,4 +64,4 @@ const Market = ({image,name,price,grame}) => {
 	);
 };
 
-export default Market;
+export default Product;
